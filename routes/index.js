@@ -7,6 +7,9 @@ const login = require('../controllers/login');
 const signout = require('../controllers/signout');
 const NotFoundError = require('../utils/errors/notFoundError');
 const { validateRegister, validateLogin } = require('../utils/validation');
+const { requestLogger, errorLogger } = require('../middlewares/logger');
+
+router.use(requestLogger);
 
 router.post('/signup', validateRegister, register);
 router.post('/signin', validateLogin, login);
@@ -20,5 +23,7 @@ router.get('/signout', signout);
 router.all('*', (req, res, next) => {
   next(new NotFoundError('Неправильно указан путь'));
 });
+
+router.use(errorLogger);
 
 module.exports = router;
