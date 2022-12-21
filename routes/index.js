@@ -6,9 +6,10 @@ const register = require('../controllers/register');
 const login = require('../controllers/login');
 const signout = require('../controllers/signout');
 const NotFoundError = require('../utils/errors/notFoundError');
+const { validateRegister, validateLogin } = require('../utils/validation');
 
-router.post('/signup', register);
-router.post('/signin', login);
+router.post('/signup', validateRegister, register);
+router.post('/signin', validateLogin, login);
 
 router.use(auth);
 
