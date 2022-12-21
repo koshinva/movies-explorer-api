@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
+const UnsanctionedError = require('../utils/errors/unsanctionedError');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,5 +25,24 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
 });
+
+userSchema.statics.findUserByCredentials = function findUserByCredentials(
+  email,
+  password,
+) {
+  return this.findOne({ email })
+    .select('+password')
+    .then((user) => {
+      if (!user) {
+        throw new UnsanctionedError('Неверные почта или пароль');
+      }
+      return bcrypt.hash(password, user.password).then((matched) => {
+        if (!matched) {
+          throw new UnsanctionedError('Неверные почта или пароль');
+        }
+        return user;
+      });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);

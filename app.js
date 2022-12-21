@@ -10,6 +10,7 @@ const { PORT = 3030 } = process.env;
 
 const app = express();
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+mongoose.connection.syncIndexes();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
