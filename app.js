@@ -7,11 +7,14 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes/index');
 const errorHandler = require('./utils/errorHandler');
+const limiter = require('./middlewares/rateLimiter');
 
-const { PORT = 3000, DATA_BASE, NODE_ENV } = process.env;
+const { PORT = 3010, DATA_BASE, NODE_ENV } = process.env;
 
 const app = express();
 app.use(helmet());
+
+app.set('trust proxy', 1);
 
 mongoose.connect(
   NODE_ENV === 'production'
@@ -23,11 +26,11 @@ mongoose.connection.syncIndexes();
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+app.use(limiter);
+
 app.use(routes);
 
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log('Server started');
-});
+app.listen(PORT);
