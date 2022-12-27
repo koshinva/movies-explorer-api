@@ -9,7 +9,7 @@ const routes = require('./routes/index');
 const errorHandler = require('./utils/errorHandler');
 const limiter = require('./middlewares/rateLimiter');
 
-const { PORT = 3010, DATA_BASE, NODE_ENV } = process.env;
+const { PORT = 3000, DATA_BASE, NODE_ENV } = process.env;
 
 const app = express();
 app.use(helmet());

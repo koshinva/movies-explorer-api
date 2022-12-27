@@ -13,6 +13,7 @@ module.exports.getFavoriteMovies = (req, res, next) => {
     .catch(next);
 };
 module.exports.addMovieToFavorite = (req, res, next) => {
+  const owner = req.user._id;
   const {
     country,
     director,
@@ -25,7 +26,7 @@ module.exports.addMovieToFavorite = (req, res, next) => {
     nameEN,
     thumbnail,
     movieId,
-  } = req.body();
+  } = req.body;
   MovieModel.create({
     country,
     director,
@@ -33,14 +34,15 @@ module.exports.addMovieToFavorite = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink: trailer,
     nameRU,
     nameEN,
     thumbnail,
     movieId,
+    owner,
   })
     .then((movie) => {
-      res.send(STATUS_CODE_201).send({ data: movie });
+      res.status(STATUS_CODE_201).send({ data: movie });
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
