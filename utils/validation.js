@@ -29,7 +29,7 @@ const validateAddMovieToFavorite = celebrate({
     image: Joi.string().required().uri(),
     trailer: Joi.string().required().uri(),
     thumbnail: Joi.string().required().uri(),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

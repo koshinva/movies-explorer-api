@@ -1,3 +1,5 @@
+const { SuccessExitMessage } = require('../utils/messageResponse');
+
 module.exports = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Выход' });
+  res.clearCookie('jwt').send({ message: SuccessExitMessage });
 };

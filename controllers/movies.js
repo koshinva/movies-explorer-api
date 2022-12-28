@@ -2,6 +2,8 @@ const MovieModel = require('../models/movie');
 const AccessRestrictionError = require('../utils/errors/accessRestrictionError');
 const IncorrectDataError = require('../utils/errors/incorrectDataError');
 const NotFoundError = require('../utils/errors/notFoundError');
+const { IncorrectDataMessage, NotFoundByIdMessage, NoRightsToDeleteMessage } = require('../utils/messageErrors');
+const { SuccessDeleteMessage } = require('../utils/messageResponse');
 const { STATUS_CODE_201 } = require('../utils/typesCode');
 
 module.exports.getFavoriteMovies = (req, res, next) => {
@@ -13,44 +15,18 @@ module.exports.getFavoriteMovies = (req, res, next) => {
     .catch(next);
 };
 module.exports.addMovieToFavorite = (req, res, next) => {
-  const owner = req.user._id;
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-  } = req.body;
+  const { trailer: trailerLink, ...reqBody } = req.body;
   MovieModel.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink: trailer,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-    owner,
+    ...reqBody,
+    trailerLink,
+    owner: req.user._id,
   })
     .then((movie) => {
       res.status(STATUS_CODE_201).send({ data: movie });
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        return next(
-          new IncorrectDataError(
-            'Переданы некорректные данные для добавления нового фильма',
-          ),
-        );
+        return next(new IncorrectDataError(IncorrectDataMessage));
       }
       return next(error);
     });
@@ -60,21 +36,19 @@ module.exports.deleteMovieFromFavorite = (req, res, next) => {
   MovieModel.findById(_id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Карточка с указанным id не найдена');
+        throw new NotFoundError(NotFoundByIdMessage);
       }
       if (movie.owner.toString() !== req.user._id) {
-        throw new AccessRestrictionError(
-          'Нет прав удалить фильм другого пользователя',
-        );
+        throw new AccessRestrictionError(NoRightsToDeleteMessage);
       }
-      return movie.remove().send({ message: 'Фильм успешно удален' });
+      return movie.remove().then(() => {
+        res.send({ message: SuccessDeleteMessage });
+      });
     })
     .catch((error) => {
       if (error.name === 'CastError') {
         return next(
-          new IncorrectDataError(
-            'Переданы некорректные данные для удаления фильма',
-          ),
+          new IncorrectDataError(IncorrectDataMessage),
         );
       }
       return next(error);

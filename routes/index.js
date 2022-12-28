@@ -10,10 +10,13 @@ const NotFoundError = require('../utils/errors/notFoundError');
 const { validateRegister, validateLogin } = require('../utils/validation');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
 const corsOptions = require('../utils/corsOptions');
+const limiter = require('../middlewares/rateLimiter');
 
 router.use(cors(corsOptions));
 
 router.use(requestLogger);
+
+router.use(limiter);
 
 router.post('/signup', validateRegister, register);
 router.post('/signin', validateLogin, login);

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const UserModel = require('../models/user');
+const { SuccessfulAuthMessage } = require('../utils/messageResponse');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -19,7 +20,7 @@ module.exports = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
         })
-        .send({ message: 'Успешная авторизация' });
+        .send({ message: SuccessfulAuthMessage });
     })
     .catch(next);
 };

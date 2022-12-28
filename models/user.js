@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 const UnsanctionedError = require('../utils/errors/unsanctionedError');
+const { IncorrectEmailMessage, WrongEmailOrPassword } = require('../utils/messageErrors');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,7 +17,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: 'Некорректный email',
+      message: IncorrectEmailMessage,
     },
   },
   password: {
@@ -34,11 +35,11 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
     .select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnsanctionedError('Неверные почта или пароль');
+        throw new UnsanctionedError(WrongEmailOrPassword);
       }
       return bcrypt.hash(password, user.password).then((matched) => {
         if (!matched) {
-          throw new UnsanctionedError('Неверные почта или пароль');
+          throw new UnsanctionedError(WrongEmailOrPassword);
         }
         return user;
       });
