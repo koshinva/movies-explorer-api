@@ -37,7 +37,7 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(
       if (!user) {
         throw new UnsanctionedError(WrongEmailOrPassword);
       }
-      return bcrypt.hash(password, user.password).then((matched) => {
+      return bcrypt.compare(password, user.password).then((matched) => {
         if (!matched) {
           throw new UnsanctionedError(WrongEmailOrPassword);
         }
