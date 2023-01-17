@@ -15,10 +15,8 @@ module.exports.getFavoriteMovies = (req, res, next) => {
     .catch(next);
 };
 module.exports.addMovieToFavorite = (req, res, next) => {
-  const { trailer: trailerLink, ...reqBody } = req.body;
   MovieModel.create({
-    ...reqBody,
-    trailerLink,
+    ...req.body,
     owner: req.user._id,
   })
     .then((movie) => {
