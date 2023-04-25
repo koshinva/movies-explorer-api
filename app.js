@@ -12,7 +12,7 @@ const dataBaseServer = require('./utils/dataBaseServer');
 const { PORT = 3000 } = process.env;
 
 const app = express();
-app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
+app.use(helmet());
 
 // app.set('trust proxy', 1);
 
