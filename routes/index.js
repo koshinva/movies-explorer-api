@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const cors = require('cors');
+// const cors = require('cors');
 const routerUsers = require('./users');
 const routerMovies = require('./movies');
 const auth = require('../middlewares/auth');
