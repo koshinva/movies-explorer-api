@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// const helmet = require('helmet');
+const helmet = require('helmet');
 const { errors } = require('celebrate');
 const routes = require('./routes');
 const errorHandler = require('./utils/errorHandler');
@@ -12,7 +12,7 @@ const dataBaseServer = require('./utils/dataBaseServer');
 const { PORT = 3000 } = process.env;
 
 const app = express();
-// app.use(helmet());
+app.use(helmet());
 
 // app.set('trust proxy', 1);
 
