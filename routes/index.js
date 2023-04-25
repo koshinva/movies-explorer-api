@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const cors = require('cors');
+// const cors = require('cors');
 const routerUsers = require('./users');
 const routerMovies = require('./movies');
 const auth = require('../middlewares/auth');
@@ -9,10 +9,10 @@ const signout = require('../controllers/signout');
 const NotFoundError = require('../utils/errors/notFoundError');
 const { validateRegister, validateLogin } = require('../utils/validation');
 // const { requestLogger, errorLogger } = require('../middlewares/logger');
-const corsOptions = require('../utils/corsOptions');
+// const corsOptions = require('../utils/corsOptions');
 const limiter = require('../middlewares/rateLimiter');
 
-router.use(cors(corsOptions));
+// router.use(cors(corsOptions));
 
 // router.use(requestLogger);
 
