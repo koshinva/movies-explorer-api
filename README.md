@@ -39,16 +39,14 @@ Backend часть дипломного проекта, в котором реа
 1. Клонировать репозиторий
 `git clone https://github.com/koshinva/movies-explorer-api.git`
 2. Установить зависимости
-`npm install`
-3. Запустить локально на своей машине с помощью **nodemon**
-`npm run dev`
-4. В режиме разработки backend часть доступна по адресу `http://localhost:3000/` 
+`npm ci`
+3. запустить проект `npm run start`. Проект запуститься на порту `3000`
 
 ---
 
 ## Ссылки
 
-:arrow_right: **Backend** часть также размещена на виртуальной машине *Yandex Cloud*, доступна по **[ссылке](https://api.movies.koshinva.nomoredomains.club 'https://api.movies.koshinva.nomoredomains.club')**
+:arrow_right: **Backend** часть также размещена на виртуальной машине *Yandex Cloud*, доступна по **[ссылке](https://api.movies.koshinva.nomoredomains.club 'https://api.movies.koshinva.nomoredomains.club')** (временно не актуально)
 
 
 Репозиторий проекта на **GitHub**
