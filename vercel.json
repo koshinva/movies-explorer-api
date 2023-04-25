@@ -3,7 +3,7 @@
   "name": "movies-explorer-api",
   "builds": [
     {
-      "src": "app.js",
+      "src": "./app.js",
       "use": "@vercel/node"
     }
   ],
